@@ -26,7 +26,7 @@ telco-churn-prediction/
 │   ├── evalutes.py                # model evaluation script    
 │   └── retention.py               # Retention strategy recommender
 ├── .gitignore                     # to ignore some files
-├── Dockerfile                     # 
+├── Dockerfile                     # not implpemented here
 ├── app.py                         # Streamlit dashboard (4 tabs)
 ├── requirements.txt
 └── README.md
