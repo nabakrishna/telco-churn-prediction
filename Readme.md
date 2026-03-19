@@ -23,6 +23,7 @@ telco-churn-prediction/
 │   ├── train.py                   # SMOTE + Optuna + model comparison
 │   ├── clv.py                     # Customer Lifetime Value logic
 │   └── retention.py               # Retention strategy recommender
+├── .gitignore                     # to ignore some files
 ├── app.py                         # Streamlit dashboard (4 tabs)
 ├── requirements.txt
 └── README.md
