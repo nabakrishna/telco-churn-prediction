@@ -20,6 +20,7 @@ telco-churn-prediction/
 │   ├── raw_columns.pkl
 │   └── meta.pkl
 ├── src/
+|   ├── __init__.py                 #  it enabling to import its scripts as modules from other files.
 │   ├── preprocess.py              # Cleaning, OHE, scaling
 │   ├── train.py                   # SMOTE + Optuna + model comparison
 │   ├── clv.py                     # Customer Lifetime Value logic
