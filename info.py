@@ -1,16 +1,4 @@
-# import streamlit as st
-# import pandas as pd
-# import numpy as np
-# import sklearn
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-
-# print(f"Pandas version: {pd.__version__}")
-# print(f"NumPy version: {np.__version__}")
-# print(f"Scikit-learn version: {sklearn.__version__}")
-# print(f"Seaborn version: {sns.__version__}")
-# print("All libraries imported successfully!")
-
+# req check code
 
 import pandas as pd
 import sklearn
