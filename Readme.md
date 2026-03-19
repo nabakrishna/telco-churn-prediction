@@ -28,6 +28,7 @@ telco-churn-prediction/
 ├── .gitignore                     # to ignore some files
 ├── Dockerfile                     # not implpemented here
 ├── app.py                         # Streamlit dashboard (4 tabs)
+├── info.py                        # requirements check script
 ├── requirements.txt
 └── README.md
 ```
