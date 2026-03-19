@@ -1,9 +1,9 @@
 =======================================================
   Metric Summary
 =======================================================
-  ✅  ROC-AUC              0.8337
-  ⚠️  Avg Precision        0.6202
-  ⚠️  F1 Score             0.6222
-  ❌  Precision            0.5780
-  ⚠️  Recall               0.6738
-  ✅  Accuracy             0.7825
+    ROC-AUC              0.8337
+    Avg Precision        0.6202
+    F1 Score             0.6222
+    Precision            0.5780
+    Recall               0.6738
+    Accuracy             0.7825
