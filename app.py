@@ -186,8 +186,18 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     font-family: 'DM Mono', monospace;
     font-size: 0.8rem;
     font-weight: 500;
+    color: #1a1a2e ;   /* change this to 1a1a2e */
 }
-
+/*this below .stTabs id for the hover */
+.stTabs [data-baseweb="tab"]:hover {
+    color: #e11d48 !important;  /* reddish color on hover */
+    background: transparent !important;
+}
+.stTabs [aria-selected="true"]:hover {
+    background: #1a1a2e !important;
+    color: #f5f2ed !important;
+}
+            
 .stTabs [aria-selected="true"] {
     background: #1a1a2e !important;
     color: #f5f2ed !important;
