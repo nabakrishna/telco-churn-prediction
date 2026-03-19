@@ -250,4 +250,3 @@ Hit the button at the bottom of the sidebar to run inference.
 
 ## 📄 License
 
-MIT License — free to use and modify.
