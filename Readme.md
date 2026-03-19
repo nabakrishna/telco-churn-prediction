@@ -10,6 +10,7 @@
 telco-churn-prediction/
 ├── data/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
+├── evaluations/                   # model evaluation result 7 separate metric plots (ROC, PR, F1, confusion matrix, distribution)
 ├── models/                        # Auto-generated after training
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
@@ -22,8 +23,10 @@ telco-churn-prediction/
 │   ├── preprocess.py              # Cleaning, OHE, scaling
 │   ├── train.py                   # SMOTE + Optuna + model comparison
 │   ├── clv.py                     # Customer Lifetime Value logic
+│   ├── evalutes.py                # model evaluation script    
 │   └── retention.py               # Retention strategy recommender
 ├── .gitignore                     # to ignore some files
+├── Dockerfile                     # 
 ├── app.py                         # Streamlit dashboard (4 tabs)
 ├── requirements.txt
 └── README.md
