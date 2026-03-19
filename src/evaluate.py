@@ -4,7 +4,6 @@ import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 from sklearn.metrics import (
     classification_report, confusion_matrix, roc_curve, auc,
     precision_recall_curve, average_precision_score,
@@ -187,6 +186,13 @@ def plot_probability_distribution(ax, y_test, y_prob):
     set_style(ax, "Predicted Probability Distribution")
 
 
+def save_fig(fig, filename):
+    path = os.path.join(OUTPUT_DIR, filename)
+    fig.savefig(path, dpi=150, bbox_inches="tight", facecolor=BG)
+    plt.close(fig)
+    print(f"  ✅  Saved → {filename}")
+
+
 def run_evaluation():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -202,8 +208,8 @@ def run_evaluation():
     y_pred = (y_prob >= optimal_threshold).astype(int)
 
     print("\n" + "=" * 55)
-    print(f"  MODEL: {best_model_name}")
-    print(f"  THRESHOLD: {optimal_threshold:.2f}")
+    print(f"  MODEL     : {best_model_name}")
+    print(f"  THRESHOLD : {optimal_threshold:.2f}")
     print("=" * 55)
     print(classification_report(y_test, y_pred, target_names=["No Churn", "Churn"]))
 
@@ -215,50 +221,73 @@ def run_evaluation():
     accuracy      = (y_pred == y_test).mean()
 
     metrics = {
-        "ROC-AUC"         : roc_auc,
-        "Avg Precision"   : avg_precision,
-        "F1 Score"        : f1,
-        "Precision"       : precision,
-        "Recall"          : recall,
-        "Accuracy"        : accuracy,
+        "ROC-AUC"       : roc_auc,
+        "Avg Precision" : avg_precision,
+        "F1 Score"      : f1,
+        "Precision"     : precision,
+        "Recall"        : recall,
+        "Accuracy"      : accuracy,
     }
 
-    print("Generating evaluation plots...")
+    print("\nGenerating evaluation plots...\n")
 
-    fig = plt.figure(figsize=(18, 14))
+    # 1 — ROC Curve
+    fig, ax = plt.subplots(figsize=(7, 5))
     fig.patch.set_facecolor(BG)
-    fig.suptitle(
-        f"ChurnIQ — Model Evaluation Report\n{best_model_name}  |  Threshold: {optimal_threshold:.2f}  |  ROC-AUC: {roc_auc:.4f}",
-        fontsize=14, fontweight="bold", color=NAVY, y=0.98
-    )
+    plot_roc_curve(ax, y_test, y_prob)
+    fig.suptitle(f"{best_model_name}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "01_roc_curve.png")
 
-    gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.45, wspace=0.35)
+    # 2 — Precision-Recall Curve
+    fig, ax = plt.subplots(figsize=(7, 5))
+    fig.patch.set_facecolor(BG)
+    plot_pr_curve(ax, y_test, y_prob)
+    fig.suptitle(f"{best_model_name}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "02_precision_recall_curve.png")
 
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    ax3 = fig.add_subplot(gs[0, 2])
-    ax4 = fig.add_subplot(gs[1, 0])
-    ax5 = fig.add_subplot(gs[1, 1])
-    ax6 = fig.add_subplot(gs[1, 2])
-    ax7 = fig.add_subplot(gs[2, :])
+    # 3 — F1 / Precision / Recall vs Threshold
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.patch.set_facecolor(BG)
+    plot_f1_threshold(ax, y_test, y_prob, optimal_threshold)
+    fig.suptitle(f"{best_model_name}  |  Optimal Threshold: {optimal_threshold:.2f}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "03_f1_threshold_curve.png")
 
-    plot_roc_curve(ax1, y_test, y_prob)
-    plot_pr_curve(ax2, y_test, y_prob)
-    plot_f1_threshold(ax3, y_test, y_prob, optimal_threshold)
-    plot_confusion_matrix(ax4, y_test, y_pred)
-    plot_class_distribution(ax5, y_test, y_pred)
-    plot_metric_summary(ax6, metrics)
-    plot_probability_distribution(ax7, y_test, y_prob)
+    # 4 — Confusion Matrix
+    fig, ax = plt.subplots(figsize=(6, 5))
+    fig.patch.set_facecolor(BG)
+    plot_confusion_matrix(ax, y_test, y_pred)
+    fig.suptitle(f"{best_model_name}  |  Threshold: {optimal_threshold:.2f}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "04_confusion_matrix.png")
 
-    output_path = os.path.join(OUTPUT_DIR, "evaluation_report.png")
-    plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=BG)
-    plt.show()
+    # 5 — Class Distribution
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.patch.set_facecolor(BG)
+    plot_class_distribution(ax, y_test, y_pred)
+    fig.suptitle(f"{best_model_name}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "05_class_distribution.png")
 
-    print(f"\nEvaluation report saved to: {output_path}")
-    print("\nMetric Summary:")
+    # 6 — Metric Summary
+    fig, ax = plt.subplots(figsize=(7, 5))
+    fig.patch.set_facecolor(BG)
+    plot_metric_summary(ax, metrics)
+    fig.suptitle(f"{best_model_name}  |  Threshold: {optimal_threshold:.2f}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "06_metric_summary.png")
+
+    # 7 — Probability Distribution
+    fig, ax = plt.subplots(figsize=(9, 5))
+    fig.patch.set_facecolor(BG)
+    plot_probability_distribution(ax, y_test, y_prob)
+    fig.suptitle(f"{best_model_name}", fontsize=9, color="#9ca3af", y=0.01)
+    save_fig(fig, "07_probability_distribution.png")
+
+    print("\n" + "=" * 55)
+    print("  Metric Summary")
+    print("=" * 55)
     for name, val in metrics.items():
         status = "✅" if val >= 0.75 else "⚠️" if val >= 0.60 else "❌"
         print(f"  {status}  {name:<20} {val:.4f}")
+    print(f"\n  All plots saved to → evaluation/")
+    print("=" * 55)
 
 
 if __name__ == "__main__":
