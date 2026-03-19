@@ -113,3 +113,46 @@ def tune_lightgbm(X_train, y_train, device):
                 random_state=RANDOM, verbose=-1)
 
 
+import os
+import sys
+import pickle
+import warnings
+import numpy as np
+import pandas as pd
+
+warnings.filterwarnings("ignore")
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from preprocess import preprocess_pipeline
+
+from sklearn.model_selection  import train_test_split, StratifiedKFold
+from sklearn.linear_model     import LogisticRegression
+from sklearn.neural_network   import MLPClassifier
+from sklearn.calibration      import CalibratedClassifierCV
+from sklearn.metrics          import (
+    classification_report, roc_auc_score,
+    f1_score, precision_score, recall_score
+)
+from imblearn.over_sampling   import SMOTE
+from imblearn.combine         import SMOTETomek
+import xgboost  as xgb
+import lightgbm as lgb
+import optuna
+
+try:
+    from catboost import CatBoostClassifier
+    CATBOOST_OK = True
+except ImportError:
+    CATBOOST_OK = False
+
+DATA_PATH  = os.path.join(os.path.dirname(__file__), "data", "WA_Fn-UseC_-Telco-Customer-Churn.csv")
+MODELS_DIR = os.path.join(os.path.dirname(__file__), "models")
+N_FOLDS    = 5
+RANDOM     = 42
+
+
+def save(obj, name):
+    with open(os.path.join(MODELS_DIR, name), "wb") as f:
+        pickle.dump(obj, f)
+
+
