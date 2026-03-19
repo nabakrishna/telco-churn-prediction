@@ -7,7 +7,7 @@
 ## 📁 Project Structure
 
 ```
-telco-churn-v2/
+telco-churn-prediction/
 ├── data/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
 ├── models/                        # Auto-generated after training
