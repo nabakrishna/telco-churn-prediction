@@ -110,7 +110,7 @@ Run with: `streamlit run app.py` → opens at **http://localhost:8501**
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone <https://github.com/nabakrishna/telco-churn-prediction.gitl>
 cd telco-churn-v2
 ```
 
