@@ -219,14 +219,21 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     background: #2d2d5e !important;
     transform: translateY(-1px) !important;
 }
-
+/*new css line------*/
+.stMarkdown p {
+    color: #1a1a2e !important;
+    opacity: 0.8; /* Optional: makes it look slightly softer/professional */
+}
+            
+            
 .whatif-change {
     font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.70rem;
     padding: 0.6rem 1rem;
     border-radius: 8px;
     margin-bottom: 0.5rem;
     border-left: 3px solid;
+    color: #4a4a5e !important;
 }
 </style>
 """, unsafe_allow_html=True)
