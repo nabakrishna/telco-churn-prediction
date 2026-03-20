@@ -253,6 +253,21 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     border-left: 3px solid;
     color: #4a4a5e !important;
 }
+
+/*this code the top bar make dark colour even in light theme*/       
+[data-testid="stHeader"] {
+    background-color: #1a1a2e !important;
+}
+
+[data-testid="stHeader"] button {
+    color: #f5f2ed !important;
+}
+
+[data-testid="stHeader"] svg {
+    fill: #f5f2ed !important;
+    color: #f5f2ed !important;
+}
+            
 </style>
 """, unsafe_allow_html=True)
 
