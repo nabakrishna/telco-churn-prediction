@@ -132,9 +132,10 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
 }
 
 .tab-header {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     font-family: 'DM Mono', monospace;
-    color: #8892b0;
+    color: #16161d;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 0.8rem;
