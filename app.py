@@ -37,7 +37,7 @@ st.markdown("""
 html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
 
 .stApp { background: #f5f2ed; }
-
+           
 .top-bar {
     background: #1a1a2e;
     border-radius: 20px;
@@ -46,6 +46,7 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+    margin-top: 1rem;
 }
 
 .top-bar h1 {
@@ -301,7 +302,87 @@ button[kind="headerNoPadding"] {
     fill: #f5f2ed !important;
     color: #f5f2ed !important;
 }
-              
+            
+/*foter code css---------------------------------------------*/
+[data-testid="stSidebar"] {
+    height: calc(100vh - 50px) !important;
+    overflow-y: auto !important;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a2e;
+    padding: 0.65rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 9999;
+    border-top: 1px solid #2d2d4e;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.footer-brand {
+    color: #f5f2ed;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.footer-sep {
+    color: #2d2d4e;
+    font-size: 1rem;
+}
+
+.footer-tagline {
+    color: #8892b0;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.footer-link {
+    color: #8892b0;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.footer-link:hover {
+    color: #f5f2ed;
+}
+
+.footer-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    display: inline-block;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Push page content up so footer doesn't overlap bottom elements */
+.main .block-container {
+    padding-bottom: 4rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -760,6 +841,57 @@ def main():
                 st.info("Run a single prediction first to unlock batch upload, or use the uploader below directly.")
                 render_batch_prediction(model, preprocessor, column_info, threshold)
 
+    #footer code----------------------------------------
+    st.markdown("""
+    <div class='footer' id='churniq-footer'>
+        <div class='footer-left'>
+            <span class='footer-brand'>🔭 ChurnIQ</span>
+            <span class='footer-sep'>|</span>
+            <span class='footer-tagline'>Telco Customer Intelligence Platform</span>
+        </div>
+        <div class='footer-right'>
+            <span class='footer-dot'></span>
+            <span class='footer-tagline'>Model Active</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-link'>Random Forest + SHAP</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-link'>v1.0.0</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-tagline'>© 2025 ChurnIQ</span>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        function syncFooter() {
+            var footer = document.getElementById('churniq-footer');
+            if (!footer) return;
+            
+            var sidebar = document.querySelector('[data-testid="stSidebar"]');
+            if (!sidebar) { footer.style.left = '0px'; return; }
+            
+            var expanded = sidebar.getAttribute('aria-expanded');
+            if (expanded === 'false') {
+                footer.style.left = '0px';
+            } else {
+                var w = sidebar.offsetWidth;
+                footer.style.left = (w > 0 ? w : 300) + 'px';
+            }
+        }
+
+        syncFooter();
+        setInterval(syncFooter, 200);
+
+        var sidebar = document.querySelector('[data-testid="stSidebar"]');
+        if (sidebar) {
+            new MutationObserver(syncFooter).observe(sidebar, {
+                attributes: true,
+                attributeFilter: ['aria-expanded', 'style', 'class']
+            });
+        }
+    })();
+    </script>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
