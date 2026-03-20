@@ -219,13 +219,14 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     background: #2d2d5e !important;
     transform: translateY(-1px) !important;
 }
+            
 /*new css line------*/
 .stMarkdown p {
     color: #1a1a2e !important;
     opacity: 0.8; /* Optional: makes it look slightly softer/professional */
 }
-            
-            
+/*new css end here---*/            
+
 .whatif-change {
     font-family: 'DM Mono', monospace;
     font-size: 0.70rem;
