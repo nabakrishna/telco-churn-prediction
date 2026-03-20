@@ -216,9 +216,9 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     transition: all 0.2s ease !important;
 }
 
-            
 
 /* Target the specific attribute for the deploy button */
+            
 [data-testid="stAppDeployButton"] {
     display: none !important;
 }
