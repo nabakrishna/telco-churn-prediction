@@ -254,6 +254,40 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     color: #4a4a5e !important;
 }
 
+/* 1. Force the collapse/expand button to be 100% opaque at all times */
+[data-testid="stSidebarCollapseButton"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 2. Target the SVG inside so it's not faint */
+[data-testid="stSidebarCollapseButton"] svg {
+    fill: #8892b0 !important; /* Muted grey-blue */
+    opacity: 1 !important;
+}
+
+/* 3. The "Glow" effect: when the cursor crosses it, it gets bright white and bigger */
+[data-testid="stSidebarCollapseButton"]:hover svg {
+    fill: #ffffff !important;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+    transform: scale(1.2);
+    transition: all 0.2s ease-in-out;
+}
+
+/* 4. This is the "Magic Fix" for the right-side cursor issue: 
+   It stops the container from fading out when the mouse leaves the sidebar */
+div[data-testid="stSidebar"] + section + div [data-testid="stSidebarCollapseButton"],
+header + div [data-testid="stSidebarCollapseButton"] {
+    opacity: 1 !important;
+    display: flex !important;
+}
+
+/* 5. Fixes the 'Expand' button (the one that appears when sidebar is closed) */
+button[kind="headerNoPadding"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 /*this code the top bar make dark colour even in light theme*/       
 [data-testid="stHeader"] {
     background-color: #1a1a2e !important;
@@ -267,7 +301,7 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     fill: #f5f2ed !important;
     color: #f5f2ed !important;
 }
-            
+              
 </style>
 """, unsafe_allow_html=True)
 
