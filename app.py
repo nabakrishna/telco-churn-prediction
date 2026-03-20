@@ -652,6 +652,7 @@ def render_batch_prediction(model, preprocessor, column_info, threshold):
 
 
 def main():
+    #footer code---------------------------------------- bcz of the load time if it is in the last it load 2sec later
     st.markdown("""
     <div class='footer' id='churniq-footer'>
         <div class='footer-left'>
@@ -702,6 +703,7 @@ def main():
     })();
     </script>
     """, unsafe_allow_html=True)
+    #footer code------------------------------------end here----------------------------------
     st.markdown("""
     <div class='top-bar'>
         <div>
@@ -903,57 +905,6 @@ def main():
                 st.info("Run a single prediction first to unlock batch upload, or use the uploader below directly.")
                 render_batch_prediction(model, preprocessor, column_info, threshold)
     
-    #footer code----------------------------------------
-    # st.markdown("""
-    # <div class='footer' id='churniq-footer'>
-    #     <div class='footer-left'>
-    #         <span class='footer-brand'>🔭 ChurnIQ</span>
-    #         <span class='footer-sep'>|</span>
-    #         <span class='footer-tagline'>Telco Customer Intelligence Platform</span>
-    #     </div>
-    #     <div class='footer-right'>
-    #         <span class='footer-dot'></span>
-    #         <span class='footer-tagline'>Model Active</span>
-    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-    #         <span class='footer-link'>Random Forest + SHAP</span>
-    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-    #         <span class='footer-link'>v1.0.0</span>
-    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-    #         <span class='footer-tagline'>© 2025 ChurnIQ</span>
-    #     </div>
-    # </div>
-
-    # <script>
-    # (function() {
-    #     function syncFooter() {
-    #         var footer = document.getElementById('churniq-footer');
-    #         if (!footer) return;
-            
-    #         var sidebar = document.querySelector('[data-testid="stSidebar"]');
-    #         if (!sidebar) { footer.style.left = '0px'; return; }
-            
-    #         var expanded = sidebar.getAttribute('aria-expanded');
-    #         if (expanded === 'false') {
-    #             footer.style.left = '0px';
-    #         } else {
-    #             var w = sidebar.offsetWidth;
-    #             footer.style.left = (w > 0 ? w : 300) + 'px';
-    #         }
-    #     }
-
-    #     syncFooter();
-    #     setInterval(syncFooter, 200);
-
-    #     var sidebar = document.querySelector('[data-testid="stSidebar"]');
-    #     if (sidebar) {
-    #         new MutationObserver(syncFooter).observe(sidebar, {
-    #             attributes: true,
-    #             attributeFilter: ['aria-expanded', 'style', 'class']
-    #         });
-    #     }
-    # })();
-    # </script>
-    # """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
