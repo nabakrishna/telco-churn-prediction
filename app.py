@@ -7,6 +7,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
+
 matplotlib.use("Agg")
 
 warnings.filterwarnings("ignore")
