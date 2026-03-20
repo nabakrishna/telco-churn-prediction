@@ -668,7 +668,7 @@ def main():
             <span class='footer-sep' style='color:#2d2d4e;'>·</span>
             <span class='footer-link'>v1.0.0</span>
             <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-            <span class='footer-tagline'>© 2025 ChurnIQ</span>
+            <span class='footer-tagline'>© 2026 ChurnIQ</span>
         </div>
     </div>
 
