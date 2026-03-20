@@ -216,6 +216,22 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     transition: all 0.2s ease !important;
 }
 
+            
+
+/* Target the specific attribute for the deploy button */
+[data-testid="stAppDeployButton"] {
+    display: none !important;
+}
+
+/* Also target the header's right-side container to ensure no gap is left */
+.stAppDeployButton, .st-emotion-cache-15ec6hl {
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+    overflow: hidden !important;
+}
+
+
 .stButton > button:hover {
     background: #2d2d5e !important;
     transform: translateY(-1px) !important;
