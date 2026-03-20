@@ -47,8 +47,20 @@ html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
     justify-content: space-between;
     margin-bottom: 1.5rem;
     margin-top: 1rem;
+    
+    /* add these two lines */
+    opacity: 0;
+    animation: fadeIn 0.4s ease 0.1s forwards;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+/*----------------------------*/
+
+/*------------------------------*/
+          
 .top-bar h1 {
     font-size: 2rem;
     font-weight: 800;
@@ -641,6 +653,56 @@ def render_batch_prediction(model, preprocessor, column_info, threshold):
 
 def main():
     st.markdown("""
+    <div class='footer' id='churniq-footer'>
+        <div class='footer-left'>
+            <span class='footer-brand'>🔭 ChurnIQ</span>
+            <span class='footer-sep'>|</span>
+            <span class='footer-tagline'>Telco Customer Intelligence Platform</span>
+        </div>
+        <div class='footer-right'>
+            <span class='footer-dot'></span>
+            <span class='footer-tagline'>Model Active</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-link'>Random Forest + SHAP</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-link'>v1.0.0</span>
+            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+            <span class='footer-tagline'>© 2025 ChurnIQ</span>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        function syncFooter() {
+            var footer = document.getElementById('churniq-footer');
+            if (!footer) return;
+            
+            var sidebar = document.querySelector('[data-testid="stSidebar"]');
+            if (!sidebar) { footer.style.left = '0px'; return; }
+            
+            var expanded = sidebar.getAttribute('aria-expanded');
+            if (expanded === 'false') {
+                footer.style.left = '0px';
+            } else {
+                var w = sidebar.offsetWidth;
+                footer.style.left = (w > 0 ? w : 300) + 'px';
+            }
+        }
+
+        syncFooter();
+        setInterval(syncFooter, 200);
+
+        var sidebar = document.querySelector('[data-testid="stSidebar"]');
+        if (sidebar) {
+            new MutationObserver(syncFooter).observe(sidebar, {
+                attributes: true,
+                attributeFilter: ['aria-expanded', 'style', 'class']
+            });
+        }
+    })();
+    </script>
+    """, unsafe_allow_html=True)
+    st.markdown("""
     <div class='top-bar'>
         <div>
             <h1>🔭 ChurnIQ</h1>
@@ -840,58 +902,58 @@ def main():
                 st.markdown("<div class='tab-header'>Batch Prediction</div>", unsafe_allow_html=True)
                 st.info("Run a single prediction first to unlock batch upload, or use the uploader below directly.")
                 render_batch_prediction(model, preprocessor, column_info, threshold)
-
+    
     #footer code----------------------------------------
-    st.markdown("""
-    <div class='footer' id='churniq-footer'>
-        <div class='footer-left'>
-            <span class='footer-brand'>🔭 ChurnIQ</span>
-            <span class='footer-sep'>|</span>
-            <span class='footer-tagline'>Telco Customer Intelligence Platform</span>
-        </div>
-        <div class='footer-right'>
-            <span class='footer-dot'></span>
-            <span class='footer-tagline'>Model Active</span>
-            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-            <span class='footer-link'>Random Forest + SHAP</span>
-            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-            <span class='footer-link'>v1.0.0</span>
-            <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-            <span class='footer-tagline'>© 2025 ChurnIQ</span>
-        </div>
-    </div>
+    # st.markdown("""
+    # <div class='footer' id='churniq-footer'>
+    #     <div class='footer-left'>
+    #         <span class='footer-brand'>🔭 ChurnIQ</span>
+    #         <span class='footer-sep'>|</span>
+    #         <span class='footer-tagline'>Telco Customer Intelligence Platform</span>
+    #     </div>
+    #     <div class='footer-right'>
+    #         <span class='footer-dot'></span>
+    #         <span class='footer-tagline'>Model Active</span>
+    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+    #         <span class='footer-link'>Random Forest + SHAP</span>
+    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+    #         <span class='footer-link'>v1.0.0</span>
+    #         <span class='footer-sep' style='color:#2d2d4e;'>·</span>
+    #         <span class='footer-tagline'>© 2025 ChurnIQ</span>
+    #     </div>
+    # </div>
 
-    <script>
-    (function() {
-        function syncFooter() {
-            var footer = document.getElementById('churniq-footer');
-            if (!footer) return;
+    # <script>
+    # (function() {
+    #     function syncFooter() {
+    #         var footer = document.getElementById('churniq-footer');
+    #         if (!footer) return;
             
-            var sidebar = document.querySelector('[data-testid="stSidebar"]');
-            if (!sidebar) { footer.style.left = '0px'; return; }
+    #         var sidebar = document.querySelector('[data-testid="stSidebar"]');
+    #         if (!sidebar) { footer.style.left = '0px'; return; }
             
-            var expanded = sidebar.getAttribute('aria-expanded');
-            if (expanded === 'false') {
-                footer.style.left = '0px';
-            } else {
-                var w = sidebar.offsetWidth;
-                footer.style.left = (w > 0 ? w : 300) + 'px';
-            }
-        }
+    #         var expanded = sidebar.getAttribute('aria-expanded');
+    #         if (expanded === 'false') {
+    #             footer.style.left = '0px';
+    #         } else {
+    #             var w = sidebar.offsetWidth;
+    #             footer.style.left = (w > 0 ? w : 300) + 'px';
+    #         }
+    #     }
 
-        syncFooter();
-        setInterval(syncFooter, 200);
+    #     syncFooter();
+    #     setInterval(syncFooter, 200);
 
-        var sidebar = document.querySelector('[data-testid="stSidebar"]');
-        if (sidebar) {
-            new MutationObserver(syncFooter).observe(sidebar, {
-                attributes: true,
-                attributeFilter: ['aria-expanded', 'style', 'class']
-            });
-        }
-    })();
-    </script>
-    """, unsafe_allow_html=True)
+    #     var sidebar = document.querySelector('[data-testid="stSidebar"]');
+    #     if (sidebar) {
+    #         new MutationObserver(syncFooter).observe(sidebar, {
+    #             attributes: true,
+    #             attributeFilter: ['aria-expanded', 'style', 'class']
+    #         });
+    #     }
+    # })();
+    # </script>
+    # """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
