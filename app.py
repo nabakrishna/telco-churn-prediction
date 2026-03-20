@@ -427,7 +427,7 @@ def build_sidebar(column_info, raw_columns):
 
     st.sidebar.markdown("""
     <div style='padding: 1rem 0 0.5rem;'>
-        <span style='color: #f5f2ed; font-size: 1.3rem; font-weight: 800;'>🔭 ChurnIQ</span>
+        <span style='color: #f5f2ed; font-size: 1.8rem; font-weight: 980;'>🔭 ChurnIQ</span>
         <p style='color: #8892b0; font-size: 0.75rem; font-family: DM Mono, monospace; margin-top: 0.3rem;'>Customer Intelligence Platform</p>
     </div>
     """, unsafe_allow_html=True)
