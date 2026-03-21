@@ -663,11 +663,11 @@ def main():
         </div>
         <div class='footer-right'>
             <span class='footer-dot'></span>
-            <span class='footer-tagline'>Model Active</span>
+            <span class='footer-link'>Model Active</span>
             <span class='footer-sep' style='color:#2d2d4e;'>·</span>
             <span class='footer-link'>v1.0.0</span>
             <span class='footer-sep' style='color:#2d2d4e;'>·</span>
-            <span class='footer-tagline'>© 2026 ChurnIQ</span>
+            <span class='footer-link'>© 2026 ChurnIQ</span>
         </div>
     </div>
 
