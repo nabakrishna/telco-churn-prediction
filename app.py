@@ -601,7 +601,9 @@ def render_whatif(user_inputs, model, preprocessor, column_info, threshold, base
 
 def render_batch_prediction(model, preprocessor, column_info, threshold):
     st.markdown("<div class='tab-header'>Batch Prediction — Upload CSV</div>", unsafe_allow_html=True)
-    uploaded = st.file_uploader("Upload customer CSV (same columns as training data, without Churn column)", type=["csv"])
+    st.markdown("<p style='color:#1a1a2e; font-size:0.85rem; margin-bottom:0.3rem;'>Upload customer CSV (same columns as training data, without Churn column)</p>", unsafe_allow_html=True)
+    uploaded = st.file_uploader("", type=["csv"], label_visibility="collapsed")
+    # uploaded = st.file_uploader("Upload customer CSV (same columns as training data, without Churn column)", type=["csv"])
 
     if uploaded:
         try:
@@ -635,13 +637,32 @@ def render_batch_prediction(model, preprocessor, column_info, threshold):
                 "RiskLevel": [get_churn_risk_label(p)[0] for p in probs],
             }).sort_values("ChurnProbability", ascending=False)
 
+            # col1, col2, col3 = st.columns(3)
+            # with col1:
+            #     st.metric("Total Customers", len(results_df))
+            # with col2:
+            #     st.metric("Predicted Churners", int(preds.sum()))
+            # with col3:
+            #     st.metric("Avg Churn Risk", f"{probs.mean():.1%}")
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("Total Customers", len(results_df))
+                st.markdown(f"""
+                <div class='card' style='text-align:center;'>
+                    <div class='stat-number' style='color:#1a1a2e;'>{len(results_df)}</div>
+                    <div class='stat-label'>Total Customers</div>
+                </div>""", unsafe_allow_html=True)
             with col2:
-                st.metric("Predicted Churners", int(preds.sum()))
+                st.markdown(f"""
+                <div class='card' style='text-align:center;'>
+                    <div class='stat-number' style='color:#ef4444;'>{int(preds.sum())}</div>
+                    <div class='stat-label'>Predicted Churners</div>
+                </div>""", unsafe_allow_html=True)
             with col3:
-                st.metric("Avg Churn Risk", f"{probs.mean():.1%}")
+                st.markdown(f"""
+                <div class='card' style='text-align:center;'>
+                    <div class='stat-number' style='color:#f59e0b;'>{probs.mean():.1%}</div>
+                    <div class='stat-label'>Avg Churn Risk</div>
+                </div>""", unsafe_allow_html=True)
 
             st.dataframe(results_df, use_container_width=True, hide_index=True)
 
