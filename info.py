@@ -11,6 +11,7 @@ import mlflow
 import numpy as np
 from pkg_resources import parse_version
 
+
 requirements = {
     "pandas": "1.5.0",
     "scikit-learn": "1.2.0",
