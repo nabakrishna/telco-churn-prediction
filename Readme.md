@@ -69,11 +69,12 @@ MonthlyCharges      ░░░░░░░░░████████  +0.11  
 ```
 telco-churn-prediction/
 ├── data/
-│   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
+│   ├── WA_Fn-UseC_-Telco-Customer-Churn.csv    # dataset   
 ├── demo/
-│   └── dash.jpeg                  # Dashboard screenshot
-├── evaluations/                   # Model evaluation plots (ROC, PR, F1, confusion matrix, distribution)
-├── models/                        # Auto-generated after training
+│   ├── churniq_demo.webm                       # demo video
+│   └── dash.jpeg                               # Dashboard screenshot
+├── evaluations/                                # Model evaluation plots (ROC, PR, F1, confusion matrix, distribution)
+├── models/                                     # Auto-generated after training
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
 │   ├── feature_names.pkl
@@ -82,18 +83,18 @@ telco-churn-prediction/
 │   ├── raw_columns.pkl
 │   └── meta.pkl
 ├── src/
-│   ├── __init__.py                # Enables module imports across the project
-│   ├── preprocess.py              # Cleaning, OHE, scaling
-│   ├── train.py                   # SMOTE + Optuna + model comparison
-│   ├── clv.py                     # Customer Lifetime Value logic
-│   ├── evaluates.py               # Model evaluation script
-│   └── retention.py               # Retention strategy recommender
-├── .gitignore
-├── Dockerfile
-├── app.py                         # Streamlit dashboard (4 tabs)
-├── info.py                        # Requirements check script
-├── requirements.txt
-└── README.md
+│   ├── __init__.py                             # Enables module imports across the project
+│   ├── preprocess.py                           # Cleaning, OHE, scaling
+│   ├── train.py                                # SMOTE + Optuna + model comparison
+│   ├── clv.py                                  # Customer Lifetime Value logic
+│   ├── evaluates.py                            # Model evaluation script
+│   └── retention.py                            # Retention strategy recommender
+├── .gitignore                                  # to ignore some files
+├── Dockerfile                                  # not implemented
+├── app.py                                      # Streamlit dashboard (4 tabs)
+├── info.py                                     # requirements check script
+├── requirements.txt                            # requirements for the project
+└── README.md                                   # about it
 ```
 
 ---
