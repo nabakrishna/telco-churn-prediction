@@ -531,6 +531,7 @@ def compute_shap(model, encoded_input):
         st.warning(f"SHAP error: {e}")
         return None, None
 
+
 def render_shap_chart(shap_vals, feature_names, top_n=12):
     if shap_vals is None:
         st.info("SHAP not available. Install with: pip install shap")
