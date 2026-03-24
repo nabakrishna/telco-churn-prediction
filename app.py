@@ -490,18 +490,55 @@ def predict(model, encoded_input, threshold):
     return pred, prob
 
 
+# def compute_shap(model, encoded_input):
+#     if not SHAP_AVAILABLE:
+#         return None, None
+#     try:
+#         explainer = shap.TreeExplainer(model)
+#         shap_values = explainer.shap_values(encoded_input)
+#         if isinstance(shap_values, list):
+#             return explainer, shap_values[1]
+#         return explainer, shap_values
+#     except Exception:
+#         return None, None
 def compute_shap(model, encoded_input):
     if not SHAP_AVAILABLE:
         return None, None
     try:
-        explainer = shap.TreeExplainer(model)
-        shap_values = explainer.shap_values(encoded_input)
-        if isinstance(shap_values, list):
-            return explainer, shap_values[1]
-        return explainer, shap_values
-    except Exception:
-        return None, None
+        import scipy.sparse as sp
+        if sp.issparse(encoded_input):
+            encoded_input = encoded_input.toarray()
 
+        from sklearn.linear_model import LogisticRegression, LinearRegression
+        from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+
+        if isinstance(model, (LogisticRegression, LinearRegression)):
+            # Use masker with zeros as background — works correctly for a single row
+            masker = shap.maskers.Independent(np.zeros((1, encoded_input.shape[1])))
+            explainer = shap.LinearExplainer(model, masker)
+            shap_values = explainer.shap_values(encoded_input)
+            # LinearExplainer returns (n_samples, n_features) for binary classification
+            # We need the positive class values
+            if shap_values.ndim == 3:
+                shap_values = shap_values[:, :, 1]
+
+        elif isinstance(model, (RandomForestClassifier, GradientBoostingClassifier)):
+            explainer = shap.TreeExplainer(model)
+            shap_values = explainer.shap_values(encoded_input)
+            if isinstance(shap_values, list):
+                return explainer, shap_values[1]
+
+        else:
+            explainer = shap.KernelExplainer(model.predict_proba, encoded_input)
+            shap_values = explainer.shap_values(encoded_input)
+            if isinstance(shap_values, list):
+                return explainer, shap_values[1]
+
+        return explainer, shap_values
+
+    except Exception as e:
+        st.warning(f"SHAP error: {e}")
+        return None, None
 
 def render_shap_chart(shap_vals, feature_names, top_n=12):
     if shap_vals is None:
