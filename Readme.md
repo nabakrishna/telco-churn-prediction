@@ -4,6 +4,13 @@
 
 ---
 
+## 🖥️ Dashboard Preview
+ 
+![ChurnIQ Dashboard](demo/preview_dash.png)
+ 
+*The ChurnIQ interface — real-time churn prediction, SHAP explanations, CLV analysis, and What-If simulations in one place.*
+
+
 ## 📁 Project Structure
 
 ```
