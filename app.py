@@ -490,17 +490,8 @@ def predict(model, encoded_input, threshold):
     return pred, prob
 
 
-# def compute_shap(model, encoded_input):
-#     if not SHAP_AVAILABLE:
-#         return None, None
-#     try:
-#         explainer = shap.TreeExplainer(model)
-#         shap_values = explainer.shap_values(encoded_input)
-#         if isinstance(shap_values, list):
-#             return explainer, shap_values[1]
-#         return explainer, shap_values
-#     except Exception:
-#         return None, None
+#-------------------------new computr sharp funtion -----------------------------------------------------------
+# (LinearExplainer(model, encoded_input) was treating that single row as both the data and the background)
 def compute_shap(model, encoded_input):
     if not SHAP_AVAILABLE:
         return None, None
