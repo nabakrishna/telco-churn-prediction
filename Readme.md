@@ -1,15 +1,68 @@
 # 🔭 ChurnIQ — Telco Customer Churn Prediction
 
-> End-to-end ML system to predict, explain, and act on customer churn using Random Forest, SHAP, CLV analysis, and a Streamlit dashboard.
+> End-to-end ML system to predict, explain, and act on customer churn using Random Forest, SHAP Explainable AI, CLV analysis, and a Streamlit dashboard.
 
 ---
 
 ## 🖥️ Dashboard Preview
- 
+
 ![ChurnIQ Dashboard](demo/preview_dash.png)
- 
+
 *The ChurnIQ interface — real-time churn prediction, SHAP explanations, CLV analysis, and What-If simulations in one place.*
 
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 🤖 **Multi-Model Training** | Random Forest (Optuna-tuned), Gradient Boosting, and Logistic Regression trained and compared automatically |
+| 🧠 **Explainable AI (XAI)** | SHAP bar charts, feature impact tables, and per-prediction explanations — not just *what*, but *why* |
+| 💰 **CLV & Revenue Risk** | Estimates Customer Lifetime Value, revenue at risk, and retention ROI per customer |
+| 🔄 **What-If Simulator** | Re-scores 7 intervention scenarios instantly (e.g. "switch to 2-year contract") |
+| 📊 **Batch Prediction** | Upload a CSV to score hundreds of customers at once with downloadable results |
+| ⚖️ **Threshold Optimisation** | F1-optimal classification threshold via sweep — prioritises recall on the minority churn class |
+| 🔁 **SMOTE Balancing** | Synthetic oversampling applied only to training data to handle the 73/27 class imbalance |
+
+---
+
+## 🧠 Explainable AI — SHAP Integration
+
+ChurnIQ uses **SHAP (SHapley Additive exPlanations)** to make every prediction fully interpretable. This is critical for business trust — a churn score alone isn't actionable; knowing *why* a customer is at risk is.
+
+### How It Works
+
+SHAP assigns each feature a contribution value (positive = pushes toward churn, negative = pushes toward retention) based on Shapley values from cooperative game theory.
+
+### Explainer Selection (Auto-Detected by Model Type)
+
+| Model | SHAP Explainer Used | Why |
+|---|---|---|
+| Logistic Regression | `LinearExplainer` | Exact, fast — leverages linear structure |
+| Random Forest | `TreeExplainer` | Exact, leverages tree paths directly |
+| Gradient Boosting | `TreeExplainer` | Same — compatible with boosted trees |
+| Any other model | `KernelExplainer` | Model-agnostic fallback (slower) |
+
+The app auto-detects the winning model type and selects the correct explainer — no manual config needed.
+
+### What You See in the Dashboard
+
+- **SHAP Bar Chart** — Top 12 features ranked by absolute impact, coloured red (increases churn) or blue (reduces churn)
+- **Feature Impact Table** — Full ranked table with SHAP values and direction arrows (↑ / ↓) for every encoded feature
+- **Retention Strategies** — Generated from the top-5 SHAP features, so recommendations are grounded in the actual drivers of *this* customer's risk
+
+### Example Interpretation
+
+```
+tenure              ████████████░░░░  −0.18   ↓ Reduces Churn   (long-tenured = loyal)
+Contract_Month      ░░░░░████████████  +0.21   ↑ Increases Churn (no commitment)
+TechSupport_No      ░░░░░░░████████░░  +0.14   ↑ Increases Churn (unresolved issues)
+MonthlyCharges      ░░░░░░░░░████████  +0.11   ↑ Increases Churn (high cost sensitivity)
+```
+
+> **Background Note:** `LinearExplainer` uses a zero-vector background distribution to compute SHAP values for single-row inference — this gives each feature a proper baseline to compare against and avoids the zero-variance collapse that occurs when passing the input row as its own background.
+
+---
 
 ## 📁 Project Structure
 
@@ -17,7 +70,9 @@
 telco-churn-prediction/
 ├── data/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
-├── evaluations/                   # model evaluation result 7 separate metric plots (ROC, PR, F1, confusion matrix, distribution)
+├── demo/
+│   └── dash.jpeg                  # Dashboard screenshot
+├── evaluations/                   # Model evaluation plots (ROC, PR, F1, confusion matrix, distribution)
 ├── models/                        # Auto-generated after training
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
@@ -27,16 +82,16 @@ telco-churn-prediction/
 │   ├── raw_columns.pkl
 │   └── meta.pkl
 ├── src/
-|   ├── __init__.py                 #  it enabling to import its scripts as modules from other files.
+│   ├── __init__.py                # Enables module imports across the project
 │   ├── preprocess.py              # Cleaning, OHE, scaling
 │   ├── train.py                   # SMOTE + Optuna + model comparison
 │   ├── clv.py                     # Customer Lifetime Value logic
-│   ├── evalutes.py                # model evaluation script    
+│   ├── evaluates.py               # Model evaluation script
 │   └── retention.py               # Retention strategy recommender
-├── .gitignore                     # to ignore some files
-├── Dockerfile                     # not implpemented here
+├── .gitignore
+├── Dockerfile
 ├── app.py                         # Streamlit dashboard (4 tabs)
-├── info.py                        # requirements check script
+├── info.py                        # Requirements check script
 ├── requirements.txt
 └── README.md
 ```
@@ -105,7 +160,7 @@ Run with: `streamlit run app.py` → opens at **http://localhost:8501**
 
 | Tab | What It Shows |
 |---|---|
-| 🔮 Prediction & SHAP | Churn verdict, confidence, risk badge, SHAP bar chart explaining *why*, retention strategy cards |
+| 🔮 Prediction & SHAP | Churn verdict, confidence, risk badge, SHAP bar chart explaining *why*, feature impact table, retention strategy cards |
 | 💰 CLV & Revenue Risk | Estimated customer lifetime value, revenue at risk, retention ROI, customer tier (Bronze→Platinum) |
 | 🔄 What-If Simulator | Re-scores 7 scenarios (e.g. "switch to 2-year contract") to show churn probability change |
 | 📊 Model Comparison & Batch | AUC/F1 comparison chart + CSV upload for bulk scoring with download |
@@ -117,8 +172,8 @@ Run with: `streamlit run app.py` → opens at **http://localhost:8501**
 ### 1. Clone the Repository
 
 ```bash
-git clone <https://github.com/nabakrishna/telco-churn-prediction.gitl>
-cd telco-churn-v2
+git clone https://github.com/nabakrishna/telco-churn-prediction.git
+cd telco-churn-prediction
 ```
 
 ### 2. Create a Virtual Environment
@@ -202,7 +257,7 @@ Hit the button at the bottom of the sidebar to run inference.
 
 | Tab | What You See |
 |---|---|
-| 🔮 **Prediction & SHAP** | Churn verdict, confidence score, risk badge, SHAP bar chart explaining *why*, retention strategy cards with priority levels |
+| 🔮 **Prediction & SHAP** | Churn verdict, confidence score, risk badge, SHAP bar chart explaining *why*, feature impact table, retention strategy cards with priority levels |
 | 💰 **CLV & Revenue Risk** | Customer lifetime value, revenue at risk if they churn, retention ROI, customer tier (Bronze → Platinum) |
 | 🔄 **What-If Simulator** | 7 pre-scored scenarios (e.g. "switch to 2-year contract") ranked by resulting churn probability |
 | 📊 **Model Comparison & Batch** | AUC/F1 chart for all 3 models + CSV upload to score hundreds of customers at once |
@@ -241,7 +296,8 @@ Hit the button at the bottom of the sidebar to run inference.
 | `Model artifacts not found` in app | Run `python src/train.py` before launching the app |
 | `ModuleNotFoundError` | Make sure your virtual environment is activated |
 | Port already in use | Run `streamlit run app.py --server.port 8502` |
-| SHAP chart not showing | Install with `pip install shap` if missing |
+| SHAP chart showing all zeros | Ensure `LinearExplainer` uses a zero-vector background, not the input row itself |
+| SHAP not showing | Install with `pip install shap` then restart the app |
 
 ---
 
@@ -253,12 +309,12 @@ Hit the button at the bottom of the sidebar to run inference.
 | `scikit-learn` | Preprocessing, models, evaluation |
 | `imbalanced-learn` | SMOTE oversampling |
 | `optuna` | Bayesian hyperparameter tuning |
-| `shap` | Model explainability (TreeExplainer) |
+| `shap` | Explainable AI — LinearExplainer, TreeExplainer, KernelExplainer |
 | `streamlit` | Interactive web dashboard |
 | `matplotlib` | Charts and visualisations |
 | `numpy` | Numerical operations |
+| `scipy` | Sparse matrix handling for SHAP compatibility |
 
 ---
 
 ## 📄 License
-
